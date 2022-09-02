@@ -226,7 +226,7 @@ html {
 }
 
 body {
-    font-size: 2rem; /* currently ems cause chrome bug misinterpreting rems on body element */
+    font-size: 1.8vw; /* currently ems cause chrome bug misinterpreting rems on body element */
     line-height: 1.6;
     font-weight: 400;
     font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -702,7 +702,8 @@ hr {
     background-color: #252e3f;
     padding: 3rem;
     margin: 0;
-    height: 70rem;
+    height: 80vh;
+    /* height: 70rem; */
     /* height: 110rem; */
 }
 
@@ -726,33 +727,49 @@ hr {
     }
 }
 
+.container-title {
+    font-size: 2.5vw
+  }
+
 .dim-title {
-    width: 50%;
+    width: 40%;
     display: inline-block;
+    font-size: 1.8vw
   }
 
 .unit-title {
     width: 20%;
     display: inline-block;
+    font-size: 1.8vw
   }
 .unit-option {
     width: 70%;
     display: inline-block;
+    font-size: 1.8vw
   }
 
 .dim-value {
-    width: 25%;
+    width: 35%;
     display: inline-block;
+    font-size: 1.8vw
   }
 
 .dim-unit {
     width: 10%;
     display: inline-block;
+    font-size: 1.8vw
   }
 
 .bright-value  {
     width: 25%;
     display: inline-block;
+    font-size: 1.8vw
+  }
+
+.container-label  {
+    /* width: 25%;
+    display: inline-block; */
+    font-size: 2.2vw
   }
 
 .control-row-1 {
