@@ -158,40 +158,57 @@ buckling_model.fit(buckleX, buckley)
 # App layout
 
 dash_app.layout = html.Div(
-    id="root",
-    children=[
-        html.Div(
-            id="header",
-            children=[
-                # html.A(
-                #     html.Img(id="logo", src=dash_app.get_asset_url("CET-LOGO.png")),
-                #     href="https://www.compositeenergytechnologies.com/",
-                # ),
-                html.H3( children="Underwater Carbon Fiber Pressure Vessel Design Tool"),
-                # html.P(
-                #     id="description",
-                #     children="Since 2019, CET has been working with the Office of Naval Research (ONR) to develop and validate carbon fiber \
-                #         solutions for Full Ocean Depth (6,000 m) underwater pressure vessels.  Through comprehensive engineering studies \
-                #         conducted in partnership with the College of Engineering at University of Rhode Island, CET has developed engineering \
-                #         models to optimize the fabrication of underwater carbon fiber pressure vessels.  These models have been thoroughly \
-                #         validated and proven through testing at the Woods Hole Oceanographic Institute (WHOI) Hydrostatic Test Facility.  \
-                #         Please contact STAYDRY@USACET.COM for more information.",
-                # ),
-                html.Div(   id="description",
-                            children = [
-                                html.H6(children="User Defined Parameter", style = { 'width' : '40%', 'display': 'inline-block' }), html.H6(children="Driven Value", style = {'display': 'inline-block','color': '#2cfec1'}),
-                            ])
+#     id="root",
+#     children=[
+        # html.Div(
+        #     id="header",
+        #     children=[
+        #         # html.A(
+        #         #     html.Img(id="logo", src=dash_app.get_asset_url("CET-LOGO.png")),
+        #         #     href="https://www.compositeenergytechnologies.com/",
+        #         # ),
+        #         html.H3( children="Underwater Carbon Fiber Pressure Vessel Design Tool"),
+        #         # html.P(
+        #         #     id="description",
+        #         #     children="Since 2019, CET has been working with the Office of Naval Research (ONR) to develop and validate carbon fiber \
+        #         #         solutions for Full Ocean Depth (6,000 m) underwater pressure vessels.  Through comprehensive engineering studies \
+        #         #         conducted in partnership with the College of Engineering at University of Rhode Island, CET has developed engineering \
+        #         #         models to optimize the fabrication of underwater carbon fiber pressure vessels.  These models have been thoroughly \
+        #         #         validated and proven through testing at the Woods Hole Oceanographic Institute (WHOI) Hydrostatic Test Facility.  \
+        #         #         Please contact STAYDRY@USACET.COM for more information.",
+        #         # ),
+        #         html.Div(   id="description",
+        #                     children = [
+        #                         html.H6(children="User Defined Parameter", style = { 'width' : '40%', 'display': 'inline-block' }), html.H6(children="Driven Value", style = {'display': 'inline-block','color': '#2cfec1'}),
+        #                     ])
 
-            ],
-        ),
-        html.Div(
+        #     ],
+        # ),
+        # html.Div(
             id="app-container",
             children=[
+
+                # html.Div(
+                #     id="header",
+                #     children=[
+
+                #         html.H3( children="Underwater Carbon Fiber Pressure Vessel Design Tool"),
+
+                #         html.Div(   id="description",
+                #                     children = [
+                #                         html.H6(children="User Defined Parameter", style = { 'width' : '40%', 'display': 'inline-block' }),
+                #                         html.H6(children="Driven Value", style = {'display': 'inline-block','color': '#2cfec1'}),
+                #                     ])
+
+                #     ],
+                # ),
+
+
                 html.Div(
                     id="left-column",
                     children=[
 
-                                html.H3(children="Pressure Vessel Dimensions", className = "container-title", style={'textAlign': 'center'}),
+                                html.H3(children="Underwater Carbon Fiber Pressure Vessel Design Tool", className = "container-title", style={'textAlign': 'center'}),
 
                                 html.Div(
                                     className="control-row-1",
@@ -199,6 +216,12 @@ dash_app.layout = html.Div(
                                                 html.Div(
                                                     className="values-area",
                                                     children=[
+
+                                                                html.Div(   id="description",
+                                                                            children = [
+                                                                                html.H6(children="User Defined Parameter", style = { 'width' : '60%', 'display': 'inline-block' }),
+                                                                                html.H6(children="Driven Value", style = {'display': 'inline-block','color': '#2cfec1'}),
+                                                                            ]),
 
                                                                 html.H3('Inputs', className="container-label"),
 
@@ -434,7 +457,7 @@ dash_app.layout = html.Div(
                                                         className="sliders-area",
                                                         children=[
                                                                     html.Br(),
-                                                                    dcc.Graph( id = 'vessel-plot', style={'height': '50vh'}),       
+                                                                    dcc.Graph( id = 'vessel-plot', style={'height': '70vh'}),       
 
                                                                 ],
                                                             ),
@@ -495,9 +518,9 @@ dash_app.layout = html.Div(
                 #     ],
                 # ),
             ],
-        ),
-    ],
-)
+        )
+#     ],
+# )
 
 # @app.callback(
 #     Output("tube-length-output", "children"),
@@ -906,4 +929,4 @@ def create_vessel(length, od, plies, pressure, input1):
 
 
 if __name__ == "__main__":
-    dash_app.run_server(debug=False)
+    dash_app.run_server(debug=True)
