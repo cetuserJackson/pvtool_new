@@ -163,11 +163,11 @@ dash_app.layout = html.Div(
         html.Div(
             id="header",
             children=[
-                html.A(
-                    html.Img(id="logo", src=dash_app.get_asset_url("CET-LOGO.png")),
-                    href="https://www.compositeenergytechnologies.com/",
-                ),
-                html.H2( children="Underwater Carbon Fiber Pressure Vessel Design Tool"),
+                # html.A(
+                #     html.Img(id="logo", src=dash_app.get_asset_url("CET-LOGO.png")),
+                #     href="https://www.compositeenergytechnologies.com/",
+                # ),
+                html.H3( children="Underwater Carbon Fiber Pressure Vessel Design Tool"),
                 # html.P(
                 #     id="description",
                 #     children="Since 2019, CET has been working with the Office of Naval Research (ONR) to develop and validate carbon fiber \
@@ -179,7 +179,7 @@ dash_app.layout = html.Div(
                 # ),
                 html.Div(   id="description",
                             children = [
-                                html.H6(children="User Defined Parameter", style = { 'width' : '20%', 'display': 'inline-block' }), html.H6(children="Driven Value", style = {'display': 'inline-block','color': '#2cfec1'}),
+                                html.H6(children="User Defined Parameter", style = { 'width' : '40%', 'display': 'inline-block' }), html.H6(children="Driven Value", style = {'display': 'inline-block','color': '#2cfec1'}),
                             ])
 
             ],
@@ -191,7 +191,7 @@ dash_app.layout = html.Div(
                     id="left-column",
                     children=[
 
-                                html.H3(children="Pressure Vessel Dimensions", style={'textAlign': 'center'}),
+                                html.H3(children="Pressure Vessel Dimensions", className = "container-title", style={'textAlign': 'center'}),
 
                                 html.Div(
                                     className="control-row-1",
@@ -200,7 +200,7 @@ dash_app.layout = html.Div(
                                                     className="values-area",
                                                     children=[
 
-                                                                html.H3('Inputs'),
+                                                                html.H3('Inputs', className="container-label"),
 
                                                                 html.Div(
                                                                     className="control-row-1",
@@ -218,7 +218,7 @@ dash_app.layout = html.Div(
                                                                                                     width='70%',
                                                                                                     verticalAlign="middle"
                                                                                                 ),
-                                                                                            # className="unit-option"
+                                                                                            className="unit-option"
                                                                                         ),
                                                                     ]
                                                                 ),
@@ -232,7 +232,7 @@ dash_app.layout = html.Div(
                                                                         html.H5( id = "id_od_text", className="dim-title"),
                                                                         # html.H5( id="tube-od-output", className="dim-value"),
                                                                         dcc.Input(id="tube-od", type="number", value = 21, debounce=True, 
-                                                                                            className="dim-value"),
+                                                                                            className="dim-value", min = 1, max = 40),
                                                                         html.H5("(in)", className="dim-unit"),
                                                                     ]
                                                                 ),
@@ -257,7 +257,7 @@ dash_app.layout = html.Div(
                                                                     children=[
                                                                         html.H5("Tube Length:", className="dim-title"),
                                                                         dcc.Input(id="tube-length", type="number", value = 50, debounce=True, 
-                                                                                            className="dim-value"),
+                                                                                            className="dim-value", min = 2, max = 100),
                                                                         # html.H5( id="tube-length-output", className="dim-value"),
                                                                         html.H5("(in)", className="dim-unit"),
                                                                     ]
@@ -285,7 +285,7 @@ dash_app.layout = html.Div(
                                                                         html.H5("Rated Depth:", className="dim-title"),
                                                                         
                                                                         dcc.Input(id="input-depth", type="number", placeholder="depth", value = 6000, debounce=True,
-                                                                                            className="dim-value"),
+                                                                                            className="dim-value", min = 0, max = 20000),
 
                                                                         html.H5("(m)", className="dim-unit"),
 
@@ -301,7 +301,7 @@ dash_app.layout = html.Div(
                                                                         # html.Div(dcc.Input(id="input-sf", type="number", value = 1.5, debounce=True, ),
                                                                         #                     style = { 'width' : '10%', 'display': 'inline-block' }),
                                                                         dcc.Input(id="input-sf", type="number", value = 1.5, debounce=True, 
-                                                                                            className="dim-value"),
+                                                                                            className="dim-value", min = 0.5, max = 10),
 
                                                                         html.H5("   ", className="dim-unit"),
                                                                     ]
@@ -309,7 +309,7 @@ dash_app.layout = html.Div(
 
                                                                 html.Br(),
 
-                                                                html.H3('Calculated Values'),
+                                                                html.H3('Calculated Values', className="container-label"),
                                                                 html.Br(),
 
                                                                 html.Div(
@@ -906,4 +906,4 @@ def create_vessel(length, od, plies, pressure, input1):
 
 
 if __name__ == "__main__":
-    dash_app.run_server(debug=True)
+    dash_app.run_server(debug=False)
