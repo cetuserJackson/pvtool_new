@@ -157,7 +157,7 @@ buckling_model.fit(buckleX, buckley)
 
 # App layout
 
-dash_app.layout = html.Div(
+dash_app.layout = dbc.Container(
 #     id="root",
 #     children=[
         # html.Div(
@@ -185,7 +185,7 @@ dash_app.layout = html.Div(
         #     ],
         # ),
         # html.Div(
-            id="app-container",
+            # id="app-container",
             children=[
 
                 # html.Div(
@@ -209,6 +209,8 @@ dash_app.layout = html.Div(
                     children=[
 
                                 html.H3(children="Underwater Carbon Fiber Pressure Vessel Design Tool", className = "container-title", style={'textAlign': 'center'}),
+
+                                html.Br(),
 
                                 html.Div(
                                     className="control-row-1",
@@ -456,7 +458,7 @@ dash_app.layout = html.Div(
                                         html.Div(
                                                         className="sliders-area",
                                                         children=[
-                                                                    html.Br(),
+                                                                    # html.Br(),
                                                                     dcc.Graph( id = 'vessel-plot', style={'height': '70vh'}),       
 
                                                                 ],
@@ -518,6 +520,10 @@ dash_app.layout = html.Div(
                 #     ],
                 # ),
             ],
+            # className="all",
+            style={"height": "100vh"},
+            fluid=True,
+            # fluid=True
         )
 #     ],
 # )
