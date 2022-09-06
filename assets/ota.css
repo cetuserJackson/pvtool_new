@@ -222,6 +222,8 @@ html {
     background-color: #1f2630;
     max-width: 100% !important;
     width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
     margin: 0;
 }
 
@@ -702,7 +704,8 @@ hr {
     background-color: #252e3f;
     padding: 3rem;
     margin: 1.5%;
-    height: 95vh;
+    height: 90vh;
+    max-width: 97%;
     /* height: 70rem; */
     /* height: 110rem; */
 }
@@ -711,7 +714,7 @@ hr {
     /*For mobile and smaller screens*/
     #left-column {
         margin-right: 1.5%;
-        width: 100%;
+        /* width: 100%; */
     }
 }
 
@@ -972,7 +975,8 @@ hr {
         flex-direction: row;
         justify-content: flex-start;
         align-items: stretch;
-        height: 100rem;
+        /* height: 100rem; */
+        /* height: 100%;  */
         margin-bottom: 5rem;
     }
 }
@@ -988,4 +992,11 @@ div, svg {
 
 ._dash-undo-redo {
     display: none;
+}
+
+.all {
+    max-height: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-style: solid;
 }
