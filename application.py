@@ -27,24 +27,6 @@ app = dash_app.server
 
 # Load data
 
-# APP_PATH = str(pathlib.Path(__file__).parent.resolve())
-
-# df_lat_lon = pd.read_csv(
-#     os.path.join(APP_PATH, os.path.join("data", "lat_lon_counties.csv"))
-# )
-# df_lat_lon["FIPS "] = df_lat_lon["FIPS "].apply(lambda x: str(x).zfill(5))
-
-# df_full_data = pd.read_csv(
-#     os.path.join(
-#         APP_PATH, os.path.join("data", "age_adjusted_death_rate_no_quotes.csv")
-#     )
-# )
-# df_full_data["County Code"] = df_full_data["County Code"].apply(
-#     lambda x: str(x).zfill(5)
-# )
-# df_full_data["County"] = (
-#     df_full_data["Unnamed: 0"] + ", " + df_full_data.County.map(str)
-# )
 
 dtcols = ['Parameter', 'Imperial', 'Units', 'Metric', 'Unit']
 
@@ -188,20 +170,7 @@ dash_app.layout = dbc.Container(
             # id="app-container",
             children=[
 
-                # html.Div(
-                #     id="header",
-                #     children=[
 
-                #         html.H3( children="Underwater Carbon Fiber Pressure Vessel Design Tool"),
-
-                #         html.Div(   id="description",
-                #                     children = [
-                #                         html.H6(children="User Defined Parameter", style = { 'width' : '40%', 'display': 'inline-block' }),
-                #                         html.H6(children="Driven Value", style = {'display': 'inline-block','color': '#2cfec1'}),
-                #                     ])
-
-                #     ],
-                # ),
 
 
                 html.Div(
@@ -218,6 +187,25 @@ dash_app.layout = dbc.Container(
                                                 html.Div(
                                                     className="values-area",
                                                     children=[
+
+                                                                # html.Div(
+                                                                #     className="control-row-1",
+                                                                #     children=[
+                                                                #         # html.H3("Tube Outer Diameter (in):"),
+                                                                #         # html.H5( 'Enter Email to Use Tool', className="dim-title"),
+                                                                #         # html.H5( id="tube-od-output", className="dim-value"),
+                                                                #         dcc.Input(id="email-enter", type="email", placeholder="Enter Email to Use Tool", 
+                                                                #                             className="dim-email"),
+                                                                #         html.Div(id = 'div-button', children = [
+                                                                #                                                 html.Button('Submit',
+                                                                                                                
+                                                                #                                                 id='button-submit',
+                                                                #                                                 n_clicks=0,
+                                                                #                                                 style = { 'color': '#2cfec1'})
+                                                                #                                             ]), #end div
+                                                                #         # html.H5("Button", className="dim-unit"),
+                                                                #     ]
+                                                                # ),
 
                                                                 html.Div(   id="description",
                                                                             children = [
@@ -261,21 +249,7 @@ dash_app.layout = dbc.Container(
                                                                         html.H5("(in)", className="dim-unit"),
                                                                     ]
                                                                 ),
-                                                                # dcc.Input(id="tube-od", type="number", value = 21, debounce=True, 
-                                                                #                             className="dim-value"),
-                                                                # dcc.Slider(
-                                                                #     id="tube-od",
-                                                                #     min=min(tube_OD),
-                                                                #     max=max(tube_OD),
-                                                                #     value=21,
-                                                                #     marks={
-                                                                #         str(od): {
-                                                                #             "label": str(od),
-                                                                #             "style": {"color": "#7fafdf"},
-                                                                #         }
-                                                                #         for od in tube_OD
-                                                                #     }),
-                                                                # html.Br(),
+
 
                                                                 html.Div(
                                                                     className="control-row-1",
@@ -287,21 +261,7 @@ dash_app.layout = dbc.Container(
                                                                         html.H5("(in)", className="dim-unit"),
                                                                     ]
                                                                 ),
-                                                                # dcc.Input(id="tube-length", type="number", value = 50, debounce=True, 
-                                                                #                             className="dim-value"),
-                                                                # dcc.Slider(
-                                                                #     id="tube-length",
-                                                                #     min=min(tube_lengths),
-                                                                #     max=max(tube_lengths),
-                                                                #     value=50,
-                                                                #     marks={
-                                                                #         str(tube): {
-                                                                #             "label": str(tube),
-                                                                #             "style": {"color": "#7fafdf"},
-                                                                #         }
-                                                                #         for tube in tube_lengths
-                                                                #     }),
-                                                                # html.Br(),
+
 
                                                                 html.Div(
                                                                     className="control-row-1",
@@ -379,14 +339,6 @@ dash_app.layout = dbc.Container(
                                                                     ]
                                                                 ),
 
-                                                                html.Div(
-                                                                    className="control-row-1",
-                                                                    children=[
-                                                                        html.H5("Failure Type:", className="dim-title"),
-                                                                        html.H5( id='failure_type', className="bright-value"),
-                                                                        # html.H5("(m)", className="dim-unit"),
-                                                                    ]
-                                                                ),
 
                                                                 html.Div(
                                                                     # className="control-row-1",
@@ -466,59 +418,11 @@ dash_app.layout = dbc.Container(
 
                                     ]
                                 ),
-                                # html.Div(
-                                #     className="control-row-1",
-                                #     children=[
-                                #             html.Div(
-                                #                     className="table-area",
-                                #                     children=[
-                                #                                 html.Div([
-                                #                                             html.Br(),
-                                                                            
-                                #                                             dcc.Dropdown(
-                                #                                                 id = 'dropdown-to-show_or_hide-element',
-                                #                                                 options=[
-                                #                                                     {'label': 'Show Parameters Table', 'value': 'on'},
-                                #                                                     {'label': 'Hide Parameters Table', 'value': 'off'}
-                                #                                                 ],
-                                #                                                 value = 'off'
-                                #                                             ),
-                                #                                             html.Div([
-                                #                                                 # Create element to hide/show, in this case an 'Input Component'
-                                #                                                 html.Div( dash_table.DataTable(
-                                                                                            
-                                #                                                             id='element-to-hide',
-                                #                                                             columns=[{"name": i, "id": i} for i in dtcols if i != "id"],
-                                #                                                             data= [],
-                                #                                                             style_header={
-                                #                                                                     'backgroundColor': '#1f2630'
-                                #                                                                 },
-                                #                                                             style_data={
-                                #                                                                     'backgroundColor': '#1f2630'}
-                                #                                                             ) ),
 
-                                #                                             ], style= {'display': 'block', }, id='datatable-container' # <-- This is the line that will be changed by the dropdown callback
-                                #                                             )
-                                #                                 ])
-
-                                #                             ],
-                                #                         ),
-                                #     ]
-                                # )
 
                     ],
                 ),
-                # html.Div(
-                #     id="graph-container",
-                #     children=[
-                #                 html.H4('Carbon Fiber Pressure Vessels'),
 
-                #                 # html.Br(),
-
-                #                 # dcc.Graph( id = 'implosion-plot', style={'height': '60vh'})
-
-                #     ],
-                # ),
             ],
             # className="all",
             style={"height": "100vh"},
@@ -528,19 +432,7 @@ dash_app.layout = dbc.Container(
 #     ],
 # )
 
-# @app.callback(
-#     Output("tube-length-output", "children"),
-#     Input("tube-length", "value"),
-# )
-# def update_output(input1):
-#     return input1
 
-# @app.callback(
-#     Output("tube-od-output", "children"),
-#     Input("tube-od", "value"),
-# )
-# def update_output1(input1):
-#     return input1
 
 ## Change text between outer and inner diameter
 @dash_app.callback(
@@ -555,12 +447,12 @@ def update_output1(input1):
         return "Tube Outer Diameter:", "Inner Diameter:"
 
 @dash_app.callback(
-    [Output("thickness-wall-output", "children"),
-     Output("failure_type", "children")],
-    [Input("tube-od", "value"),
-     Input("failure_depth", "children"), 
-     Input("tube-length", "value")
-     ],
+    Output("thickness-wall-output", "children"),
+    #  Output("failure_type", "children")],
+    Input("tube-od", "value"),
+    Input("failure_depth", "children"), 
+    Input("tube-length", "value")
+     ,
 )
 def update_output2(tubeod, depthin, lengthin):
 
@@ -577,15 +469,8 @@ def update_output2(tubeod, depthin, lengthin):
         wall_thick = wall_thickbuck
         failmode = 'Buckling'
 
-    return wall_thick, failmode
+    return wall_thick
 
-# @dash_app.callback(
-#     Output("thickness-output", "children"),
-#     Input("input-thickness", "value"),
-# )
-# def update_output3(input1):
-#     # return u'Ply Thickness :  {} (mm)'.format(input1)
-#     return input1
 
 @dash_app.callback(
     [
@@ -615,33 +500,7 @@ def update_output6(depth, safety_factor):
 
     return [fail_depth]
 
-# @dash_app.callback(
-#     [
-    
-#     Output("failure_type", "children")],
 
-#     [
-#     Input("input-depth", "value"),
-#     Input("input-sf", "value"),]
-# )
-# def update_output6(depth, safety_factor):
-    
-#     fail_depth = round(depth * safety_factor, 2)
-
-#     if fail_depth > 3000:
-#         ftype = 'Strength'
-#     else:
-#         ftype = 'Buckling'
-
-#     return [ftype]
-
-# @dash_app.callback(
-#     Output("sf-output", "children"),
-#     Input("input-sf", "value"),
-# )
-# def update_outputsf(input1):
-#     # return u'Ply Thickness :  {} (mm)'.format(input1)
-#     return input1
 
 ##Calculate Implosion
 @dash_app.callback(
@@ -861,77 +720,6 @@ def create_vessel(length, od, plies, pressure, input1):
                   scene_aspectratio=dict(x=plot_ratio, y=1, z=1))
 
     return [figz]
-
-
-# @dash_app.callback(
-#    Output("element-to-hide", "data"),
-#    [    
-#     Input("tube-length", "value"),
-#     Input("tube-od", "value"),
-#     Input("tube-plies-output", "children"),
-#     Input("inner-diameter-output", "children"),
-#     Input("wall-thickness-output", "children"),
-#     Input("weight-output", "children"),
-#     Input("volume-output", "children"),
-#     Input("solve", "value"),
-#     Input("implosion-pressure-output", "children"),
-   
-#    ])
-
-# def create_table(Lengthdt, od, plies, IDdt, Wallthickdt, Weightdt, Voldt, input1, pressure):
-
-#     thickness = 0.45
-
-#     wall_thickness = round( (plies * thickness)/25.4, 3)
-
-#     if input1 == 1:
-#         calc_od_id = round( od + 2 * ( wall_thickness ), 3)
-#         odreal = round( od + 2 * ( wall_thickness  ), 3)
-#         idreal = od
-#     if input1 == 2:
-#         calc_od_id = round( od - 2 * ( wall_thickness ), 3)
-#         odreal = od
-#         idreal = calc_od_id
-
-#     Outer_Diameter = odreal
-
-#     Inner_Diameter = idreal
-
-#     enVol = round( np.pi*( Inner_Diameter / 2 )**2 * Lengthdt * 0.554113, 2)
-
-#     PressureO = pressure
-
-#     dtcols = ['Parameter', 'Imperial', 'Unit', 'Metric', 'Unit']
-
-#     params = ['Tube Length', 'Outer Diameter', 'Inner Diameter', 'Wall Thickness', 'Weight', 'Volume of Material', 'Encapsulated Volume', 'Implosion Pressure']
-
-#     impvals1 = [Lengthdt, Outer_Diameter, Inner_Diameter, wall_thickness, Weightdt, Voldt, enVol, PressureO * 145.038]
-
-#     impvals = [round(num, 3) for num in impvals1]
-
-#     impunits = ['in', 'in', 'in', 'in', 'lbs', 'in^3', 'oz', 'psi']
-
-#     metricvals1 = [Lengthdt*25.4, Outer_Diameter*25.4, Inner_Diameter*25.4, wall_thickness*25.4,  Weightdt/2.2, Voldt*1.63871e-5, enVol*29.573, PressureO]
-
-#     metricvals = [round(num, 3) for num in metricvals1]
-    
-#     metunits = ['mm', 'mm', 'mm', 'mm', 'kg', "m^3", "mL", "MPa"]
-
-#     dimstable = pd.DataFrame({ 'Parameter': params, 'Imperial': impvals, 'Units': impunits, 'Metric': metricvals, 'Unit': metunits})
-
-#     return dimstable.to_dict('records')
-
-
-
-# @dash_app.callback(
-#    Output(component_id='datatable-container', component_property='style'),
-#    [Input(component_id='dropdown-to-show_or_hide-element', component_property='value')])
-
-# def show_hide_element(visibility_state):
-#     if visibility_state == 'on':
-#         return {'display': 'block'}
-#     if visibility_state == 'off':
-#         return {'display': 'none'}
 
 
 if __name__ == "__main__":
