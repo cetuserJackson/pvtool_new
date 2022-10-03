@@ -12,6 +12,8 @@ import plotly.graph_objs as go
 import numpy as np
 from dash import dash_table
 from sklearn import linear_model
+from scipy.interpolate import interp2d
+from scipy.interpolate import interp1d
 # import cufflinks as cf
 
 # Initialize app
@@ -26,116 +28,69 @@ dash_app.title = "Pressure Vessel Tool"
 app = dash_app.server
 
 # Load data
+# databuck = pd.read_csv(r'C:\Users\JacksonKoelher\try\OTA\underpressure\pressure_vessel_data\id1_buckle.csv')
+databuck = pd.read_csv('assets/data/id1_buckle.csv')
+databuck['ID_L'] = databuck['ID'] / databuck['Length']
+databuck['OD_L'] = databuck['OD'] / databuck['Length']
 
+# data1 = pd.read_csv(r'C:\Users\JacksonKoelher\try\OTA\underpressure\pressure_vessel_data\id1.csv')
+data1 = pd.read_csv('assets/data/id1.csv')
 
-dtcols = ['Parameter', 'Imperial', 'Units', 'Metric', 'Unit']
+dataod = pd.read_csv('assets/data/od1.csv')
 
-YEARS = [2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
-
-tube_lengths = [30, 40, 50, 60, 70, 80]
-
-tube_OD = [2,  20,  40,  60,  80]
-
-tube_plies = [40, 120, 280, 440, 600]
-
-wall_thicknesses = [5, 50, 100, 150, 200, 250]
-
-BINS = [
-    "0-2",
-    "2.1-4",
-    "4.1-6",
-    "6.1-8",
-    "8.1-10",
-    "10.1-12",
-    "12.1-14",
-    "14.1-16",
-    "16.1-18",
-    "18.1-20",
-    "20.1-22",
-    "22.1-24",
-    "24.1-26",
-    "26.1-28",
-    "28.1-30",
-    ">30",
-]
-
-DEFAULT_COLORSCALE = [
-    "#f2fffb",
-    "#bbffeb",
-    "#98ffe0",
-    "#79ffd6",
-    "#6df0c8",
-    "#69e7c0",
-    "#59dab2",
-    "#45d0a5",
-    "#31c194",
-    "#2bb489",
-    "#25a27b",
-    "#1e906d",
-    "#188463",
-    "#157658",
-    "#11684d",
-    "#10523e",
-]
-
-DEFAULT_OPACITY = 0.8
-
-
-## Create Depths and Pressures for Contour Plot
-
-trace_depths =  go.Contour(
-                            # name = 'Center of Gravity',
-                            z=[[120, 120, 120, 120, 120],
-                            [110, 110, 110, 110, 110],
-                            [100, 100, 100, 100, 100],
-                            [90, 90, 90, 90, 90],
-                            [80, 80, 80, 80, 80],
-                            [70, 70, 70, 70, 70],
-                            [60, 60, 60, 60, 60],
-                            [50, 50, 50, 50, 50],
-                            [40, 40, 40, 40, 40],
-                            [20, 20, 20, 20, 20],
-                            [0, 0, 0, 0, 0]
-                            ],
-                            x=[0, 2, 4 , 6, 8], # horizontal axis
-                            y=[-12000,-11000,-10000, -9000, -8000, -7000, -6000, -5000, -4000, -2000,  0], # vertical axis
-                            colorbar=dict(
-                                title='Pressure Contours (MPa)', # title here
-                                titleside='right',
-                                titlefont=dict(
-                                    size=14,
-                                    # family='Arial, sans-serif',
-                                    color = '#2cfec1'),
-                                # nticks=10, 
-                                ticks='outside',
-                                ticklen=5, 
-                                tickwidth=1,
-                                showticklabels=True,
-                                tickangle=0, 
-                                tickfont_size=12,
-                                tickcolor = '#2cfec1',
-                                tickfont = dict(
-                                    color = '#2cfec1')
-                            ),
-                            colorscale = 'Darkmint'
-                        )
 
 
 ## Make models
 # datain = pd.read_csv(r'C:\Users\JacksonKoelher\try\OTA\underpressure\pressure_vessel_data\underpressuredata1.csv')
-datain =  pd.read_csv('assets/data/underpressuredata1.csv')
+# datain =  pd.read_csv('assets/data/underpressuredata1.csv')
 
-X = datain[['OD', 'Length', 'Shell Failure']]
-y = datain['Wall Thickness']
+thickfindid = interp1d(data1['Shell Failure'], data1['Wall Thickness'], kind='cubic', fill_value="extrapolate")
+thickfindod = interp1d(dataod['Shell Failure'], dataod['Wall Thickness'], kind='cubic', fill_value="extrapolate")
 
-wallthick_model = linear_model.LinearRegression()
-wallthick_model.fit(X, y)
+## func id to wall shell
+def Shell_id_to_wall(Shell, ID):
+    wall = thickfindid(Shell) * ID
+    # add wall to id for od
+    return wall
 
-buckleX = datain[['OD', 'Length', 'Buckling Failure']]
-buckley = datain['Wall Thickness']
 
-buckling_model = linear_model.LinearRegression()
-buckling_model.fit(buckleX, buckley)
+## func od to wall shell
+def Shell_od_to_wall(Shell, OD):
+    wall = thickfindod(Shell) * OD
+    # subtract wall to od for id
+    return wall
+
+
+thickfindbuck_id = interp2d(databuck['Buckling'], databuck['ID_L'], databuck['Wall Thickness'], kind='cubic', fill_value="extrapolate")
+thickfindbuck_od = interp2d(databuck['Buckling'], databuck['OD_L'], databuck['Wall Thickness'], kind='cubic', fill_value="extrapolate")
+
+## func id to wall buckling
+def Buckle_id_to_wall(buckling, idl, ID):
+
+    # if idl > 1:
+    #     wall = 10
+    # else:
+    #     wall =  thickfindbuck_id(buckling, idl)[0]
+
+    wall =  thickfindbuck_id(buckling, idl)[0]
+
+    wallout = wall * ID
+
+    return wallout
+
+## func od to wall buckling
+def Buckle_od_to_wall(buckling, odl, OD):
+
+    # if odl > 1:
+    #     wall = 10
+    # else:
+    #     wall =  thickfindbuck_od(buckling, odl)[0]
+
+    wall =  thickfindbuck_od(buckling, odl)[0]
+
+    wallout = wall * OD
+
+    return wallout
 
 # App layout
 
@@ -245,7 +200,7 @@ dash_app.layout = dbc.Container(
                                                                         html.H5( id = "id_od_text", className="dim-title"),
                                                                         # html.H5( id="tube-od-output", className="dim-value"),
                                                                         dcc.Input(id="tube-od", type="number", value = 21, debounce=True, 
-                                                                                            className="dim-value", min = 1, max = 40),
+                                                                                            className="dim-value", min = 0.5, max = 60),
                                                                         html.H5("(in)", className="dim-unit"),
                                                                     ]
                                                                 ),
@@ -256,7 +211,7 @@ dash_app.layout = dbc.Container(
                                                                     children=[
                                                                         html.H5("Tube Length:", className="dim-title"),
                                                                         dcc.Input(id="tube-length", type="number", value = 50, debounce=True, 
-                                                                                            className="dim-value", min = 2, max = 100),
+                                                                                            className="dim-value", min = 1, max = 100),
                                                                         # html.H5( id="tube-length-output", className="dim-value"),
                                                                         html.H5("(in)", className="dim-unit"),
                                                                     ]
@@ -270,7 +225,7 @@ dash_app.layout = dbc.Container(
                                                                         html.H5("Rated Depth:", className="dim-title"),
                                                                         
                                                                         dcc.Input(id="input-depth", type="number", placeholder="depth", value = 6000, debounce=True,
-                                                                                            className="dim-value", min = 0, max = 20000),
+                                                                                            className="dim-value", min = 500, max = 20000),
 
                                                                         html.H5("(m)", className="dim-unit"),
 
@@ -451,16 +406,18 @@ def update_output1(input1):
     #  Output("failure_type", "children")],
     Input("tube-od", "value"),
     Input("failure_depth", "children"), 
-    Input("tube-length", "value")
+    Input("tube-length", "value"),
+    Input("solve", "value")
      ,
 )
-def update_output2(tubeod, depthin, lengthin):
+def update_output2(tubeod, depthin, lengthin, id_or_od):
 
-    # wall_thick = round((tubeod * 1/10 * implosion_pressure / 90), 2)
-    # wall_thick = tubeod
-    wall_thickshell = wallthick_model.predict([[tubeod, lengthin, depthin]])[0]
-
-    wall_thickbuck = buckling_model.predict([[tubeod, lengthin, depthin]])[0]
+    if id_or_od == 1:
+        wall_thickshell = Shell_id_to_wall(depthin, tubeod)
+        wall_thickbuck = Buckle_id_to_wall(depthin, tubeod/lengthin, tubeod )
+    if id_or_od == 2:
+        wall_thickshell = Shell_od_to_wall(depthin, tubeod)
+        wall_thickbuck = Buckle_od_to_wall(depthin, tubeod/lengthin, tubeod ) 
 
     if wall_thickshell > wall_thickbuck:
         wall_thick = wall_thickshell
@@ -471,6 +428,17 @@ def update_output2(tubeod, depthin, lengthin):
 
     return wall_thick
 
+@dash_app.callback(
+    Output("tube-length", "max"),
+    #  Output("failure_type", "children")],
+    Input("tube-od", "value")
+     ,
+)
+def setmax(tubeod):
+
+    maxallowed = tubeod * 20
+
+    return maxallowed
 
 @dash_app.callback(
     [
@@ -723,4 +691,4 @@ def create_vessel(length, od, plies, pressure, input1):
 
 
 if __name__ == "__main__":
-    dash_app.run_server(debug=True)
+    dash_app.run_server(debug=False)
